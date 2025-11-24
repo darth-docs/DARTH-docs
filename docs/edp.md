@@ -1,21 +1,55 @@
 # EDP (Energy Data Platform)
 
-## Database Structure & Data 
+## Database
 
-This dataset consist of 5-minute energy data for 951 sites, from 2018 to present. The database has four tables for EDP: 
+The Energy Data Platform (EDP) is a comprehensive, research-grade dataset of high-resolution (5-minute) energy data from 951 Australian sites, spanning 2018–2025. It integrates:
+
+- **Energy measurements:** solar PV generation, household consumption, battery charging/discharging, voltage, and current.
+
+- **Site metadata:** system specifications, inverter/subarray details, battery capacity, and connection type.
+
+- **Survey responses:** household characteristics, occupancy, appliances, heating/cooling, and energy-related behaviors.
+
+### Key Research Applications
+
+1. **Energy Behavior Analysis**
+
+    - Study consumption patterns, appliance usage, and load profiles.
+
+    - Investigate temporal trends, daily routines, and peak demand behavior.
+
+2. **Distributed Energy Resources (DER) Research**
+
+    - Evaluate solar PV generation and battery storage performance.
+
+    - Model and optimize energy systems at household or community scale.
+
+3. **Socio-Technical Insights**
+
+    - Link energy behavior to household demographics, dwelling type, and occupancy.
+
+    - Explore the influence of lifestyle and building characteristics on energy use.
+
+### Structure & Data 
+
+It consists of 5-minute energy data for 951 sites, spanning from 2018 to the end of June 2025. The database includes four types of tables, with one set being monthly partitions of all the data.
 
 |  Database Table | Columns | 
 |-------------------|--------------------------------------------------|
-| edp_data | edp_site_id, unix_time, datetime, edp_device_and_circuit, circuit_label, edp_circuit_label, real_energy, real_energy_negative, real_energy_positive, current_avg, current_min, current_max, voltage_avg, voltage_min, voltage_max  |
+| edp_data_{year}_{month} | edp_site_id, unix_time, datetime, edp_device_and_circuit, circuit_label, edp_circuit_label, real_energy, real_energy_negative, real_energy_positive, current_avg, current_min, current_max, voltage_avg, voltage_min, voltage_max  |
+
+The data is provided by Solar Analytics and Wattwatchers and de-identified by UNSW. Solar Analytics site IDs start with “S”, while Wattwatchers site IDs start with “W”.
+
+Due to the large volume of time-series data, energy tables are partitioned by month (except for *edp_data_2018*). From 2019 onwards, data is stored in monthly partitions such as *edp_data_2019_01* for January 2019, with each partition ranging between 1–2 GB (2018 has ~4 GB). Partitions are accessible via the data downloader as regular tables.
+
+Each site has different temporal coverage. For the latest updates on first and last available dates, refer to the table*edp_data_first_and_last_dates*
+
+|  Database Table | Columns | 
+|-------------------|--------------------------------------------------|
 | edp_data_first_and_last_dates  |edp_site_id, date_of_first_data, date_of_last_data |
 | edp_sites_metadata | first_date_metadata_received, last_date_metadata_received, edp_site_id, state, site_time_zone, monitoring_hardware, inverter_manufacturer, inverter_model, subarray_manufacturer, subarray_model, inverter_ac_rating_kw, subarray_orientation, subarray_tilt, subarray_strings, subarray_modules_per_string, subarray_dc_rating_kw, islandable, has_battery, battery_size_make_model, limit_enabled, limit_amount, limit_applied |
 | edp_survey_answers | edp_site_id, survey_date, consent_edp, consent_spt, consent_contact, consent_contact_method, over_18, postcode, state, account_holder, property_use, property_year, property_construction, property_construction_other, property_star_rating, num_floors, dwelling_type, dwelling_type_other, num_bedrooms, tenure, tenure_not_occupied, tenure_other, tenure_rented_from, tenure_rented_other, num_occupants, num_children, num_occupants_70plus, has_pets, num_type_pets, has_livestock, num_type_livestock, num_days_occupied, income_weekly, has_gas, has_gas_heating, has_gas_cooking, has_gas_hot_water, has_aircon, aircon_type, num_rooms_aircon, num_rooms_heated, num_refrigerators, has_pool_pump, dryer_usage, has_ev, ev_type, ev_charger_type, significant_loads_other, commercial_loads, business_hours, connection_type, has_controlled_load, islandable, property_power_outage_types, property_power_outage_other, area_power_outage_types, area_power_outage_other, power_outage_latest, hot_water_heat_type, hot_water_heat_type_other, rooms_heat_type, rooms_heat_type_other, has_battery, battery_size_make_model |
 
-De-identified data has been stored in these tables. The data has been provided by Solar Analytics and Wattwatchers. The edp_site_id for the Solar Analytics sites starts with “S” and for Wattwatchers sites start with “W”. 
-
-EDP has data for 951 sites, from 2018 to present (currently, up to the end of June 2025). Each site has a different temporal coverage. Please refer to the table *edp_data_first_and_last_dates* for the latest updates on first and last dates that data is available for each site. 
-
-Due to the large volume of its data, the *edp_data* table has been partitioned on the datetime column. First, one partition was created for each year’s data. With further increase of the data volume, it is now being transformed to monthly partitions, except for 2018 which is still one partition (*edp_data_2018*) having almost 4GB data. From 2019 onwards we have data in monthly partitions as *edp_data_2019_01* (January 2019), etc., the volume of each partition is between 1 and 2 GB. Partitions are accessible just like data tables from the data downloader. 
 
 ## Appendix A: Original Data and Preparation 
 
