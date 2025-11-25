@@ -32,7 +32,7 @@ The Energy Data Platform (EDP) is a comprehensive, research-grade dataset of hig
 
 ### Structure & Data 
 
-It consists of 5-minute energy data for 951 sites, spanning from 2018 to the end of June 2025. The database includes four types of tables, with one set being monthly partitions of all the data.
+It consists of 5-minute energy data for 951 sites, spanning from 2018 to the end of October 2025. The database includes four types of tables, with one set being monthly partitions of all the data.
 
 |  Database Table | Columns | 
 |-------------------|--------------------------------------------------|
