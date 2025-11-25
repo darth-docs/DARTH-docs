@@ -447,11 +447,35 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#database-structure-data" class="md-nav__link">
+  <a href="#database" class="md-nav__link">
     <span class="md-ellipsis">
-      Database Structure &amp; Data
+      Database
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-research-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Research Applications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structure-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structure &amp; Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -800,11 +824,35 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#database-structure-data" class="md-nav__link">
+  <a href="#database" class="md-nav__link">
     <span class="md-ellipsis">
-      Database Structure &amp; Data
+      Database
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-research-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Research Applications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structure-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structure &amp; Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1008,8 +1056,57 @@
 
 
 <h1 id="edp-energy-data-platform">EDP (Energy Data Platform)<a class="headerlink" href="#edp-energy-data-platform" title="Permanent link">&para;</a></h1>
-<h2 id="database-structure-data">Database Structure &amp; Data<a class="headerlink" href="#database-structure-data" title="Permanent link">&para;</a></h2>
-<p>This dataset consist of 5-minute energy data for 951 sites, from 2018 to present. The database has four tables for EDP: </p>
+<h2 id="database">Database<a class="headerlink" href="#database" title="Permanent link">&para;</a></h2>
+<p>The Energy Data Platform (EDP) is a comprehensive, research-grade dataset of high-resolution (5-minute) energy data from 951 Australian sites, spanning 2018–2025. It integrates:</p>
+<ul>
+<li>
+<p><strong>Energy measurements:</strong> solar PV generation, household consumption, battery charging/discharging, voltage, and current.</p>
+</li>
+<li>
+<p><strong>Site metadata:</strong> system specifications, inverter/subarray details, battery capacity, and connection type.</p>
+</li>
+<li>
+<p><strong>Survey responses:</strong> household characteristics, occupancy, appliances, heating/cooling, and energy-related behaviors.</p>
+</li>
+</ul>
+<h3 id="key-research-applications">Key Research Applications<a class="headerlink" href="#key-research-applications" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Energy Behavior Analysis</strong></p>
+<ul>
+<li>
+<p>Study consumption patterns, appliance usage, and load profiles.</p>
+</li>
+<li>
+<p>Investigate temporal trends, daily routines, and peak demand behavior.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Distributed Energy Resources (DER) Research</strong></p>
+<ul>
+<li>
+<p>Evaluate solar PV generation and battery storage performance.</p>
+</li>
+<li>
+<p>Model and optimize energy systems at household or community scale.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Socio-Technical Insights</strong></p>
+<ul>
+<li>
+<p>Link energy behavior to household demographics, dwelling type, and occupancy.</p>
+</li>
+<li>
+<p>Explore the influence of lifestyle and building characteristics on energy use.</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="structure-data">Structure &amp; Data<a class="headerlink" href="#structure-data" title="Permanent link">&para;</a></h3>
+<p>It consists of 5-minute energy data for 951 sites, spanning from 2018 to the end of June 2025. The database includes four types of tables, with one set being monthly partitions of all the data.</p>
 <table>
 <thead>
 <tr>
@@ -1019,9 +1116,22 @@
 </thead>
 <tbody>
 <tr>
-<td>edp_data</td>
+<td>edp_data_{year}_{month}</td>
 <td>edp_site_id, unix_time, datetime, edp_device_and_circuit, circuit_label, edp_circuit_label, real_energy, real_energy_negative, real_energy_positive, current_avg, current_min, current_max, voltage_avg, voltage_min, voltage_max</td>
 </tr>
+</tbody>
+</table>
+<p>The data is provided by Solar Analytics and Wattwatchers and de-identified by UNSW. Solar Analytics site IDs start with “S”, while Wattwatchers site IDs start with “W”.</p>
+<p>Due to the large volume of time-series data, energy tables are partitioned by month (except for <em>edp_data_2018</em>). From 2019 onwards, data is stored in monthly partitions such as <em>edp_data_2019_01</em> for January 2019, with each partition ranging between 1–2 GB (2018 has ~4 GB). Partitions are accessible via the data downloader as regular tables.</p>
+<p>Each site has different temporal coverage. For the latest updates on first and last available dates, refer to the table<em>edp_data_first_and_last_dates</em></p>
+<table>
+<thead>
+<tr>
+<th>Database Table</th>
+<th>Columns</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>edp_data_first_and_last_dates</td>
 <td>edp_site_id, date_of_first_data, date_of_last_data</td>
@@ -1036,9 +1146,6 @@
 </tr>
 </tbody>
 </table>
-<p>De-identified data has been stored in these tables. The data has been provided by Solar Analytics and Wattwatchers. The edp_site_id for the Solar Analytics sites starts with “S” and for Wattwatchers sites start with “W”. </p>
-<p>EDP has data for 951 sites, from 2018 to present (currently, up to the end of June 2025). Each site has a different temporal coverage. Please refer to the table <em>edp_data_first_and_last_dates</em> for the latest updates on first and last dates that data is available for each site. </p>
-<p>Due to the large volume of its data, the <em>edp_data</em> table has been partitioned on the datetime column. First, one partition was created for each year’s data. With further increase of the data volume, it is now being transformed to monthly partitions, except for 2018 which is still one partition (<em>edp_data_2018</em>) having almost 4GB data. From 2019 onwards we have data in monthly partitions as <em>edp_data_2019_01</em> (January 2019), etc., the volume of each partition is between 1 and 2 GB. Partitions are accessible just like data tables from the data downloader. </p>
 <h2 id="appendix-a-original-data-and-preparation">Appendix A: Original Data and Preparation<a class="headerlink" href="#appendix-a-original-data-and-preparation" title="Permanent link">&para;</a></h2>
 <p>EDP consists of 5-minute energy data from Solar Analytics and Wattwatchers. Both provide energy data through their APIs and send us the survey responses and some metadata as excel files. </p>
 <h3 id="1-solar-analytics">1. Solar Analytics<a class="headerlink" href="#1-solar-analytics" title="Permanent link">&para;</a></h3>
